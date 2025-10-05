@@ -1,0 +1,2063 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>التغذية البصرية - Ahmed Tawheed</title>
+    
+    <!-- External Libraries -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css">
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;900&display=swap');
+        
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --secondary: #f43f5e;
+            --accent: #8b5cf6;
+            --light: #f8fafc;
+            --dark: #1e293b;
+            --success: #10b981;
+            --warning: #f59e0b;
+        }
+        
+        * {
+            font-family: 'Tajawal', sans-serif;
+        }
+        
+        body {
+            background-color: #f1f5f9;
+            color: var(--dark);
+            overflow-x: hidden;
+        }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+        }
+        
+        .gradient-text {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .card-shadow {
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        
+        .hover-scale {
+            transition: transform 0.3s ease;
+        }
+        
+        .hover-scale:hover {
+            transform: scale(1.03);
+        }
+        
+        .section-padding {
+            padding: 80px 0;
+        }
+        
+        .quiz-option {
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .quiz-option:hover {
+            background-color: #e0e7ff;
+            transform: translateX(-5px);
+        }
+        
+        .quiz-option.selected {
+            background-color: #ddd6fe;
+            border-color: var(--primary);
+        }
+        
+        .quiz-option.correct {
+            background-color: #dcfce7;
+            border-color: var(--success);
+        }
+        
+        .quiz-option.incorrect {
+            background-color: #fee2e2;
+            border-color: var(--secondary);
+        }
+        
+        .progress-bar {
+            height: 8px;
+            background-color: #e2e8f0;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            border-radius: 4px;
+            transition: width 0.5s ease;
+        }
+        
+        .interactive-example {
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .interactive-example:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        
+        .nav-link {
+            position: relative;
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            right: 0;
+            background-color: var(--primary);
+            transition: width 0.3s ease;
+        }
+        
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        
+        .floating-button {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            cursor: pointer;
+            z-index: 100;
+            transition: all 0.3s ease;
+        }
+        
+        .floating-button:hover {
+            transform: scale(1.1);
+        }
+        
+        .mobile-menu {
+            display: none;
+        }
+        
+        @media (max-width: 768px) {
+            .mobile-menu {
+                display: block;
+            }
+            
+            .desktop-menu {
+                display: none;
+            }
+        }
+        
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: white;
+            border-radius: 8px;
+            padding: 15px 20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            transform: translateX(400px);
+            transition: transform 0.3s ease;
+        }
+        
+        .notification.show {
+            transform: translateX(0);
+        }
+        
+        .notification-icon {
+            margin-left: 15px;
+            font-size: 24px;
+        }
+        
+        .notification.success .notification-icon {
+            color: var(--success);
+        }
+        
+        .notification.error .notification-icon {
+            color: var(--secondary);
+        }
+        
+        .notification.info .notification-icon {
+            color: var(--primary);
+        }
+        
+        .quiz-navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+        
+        .quiz-button {
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .quiz-button:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        .quiz-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .quiz-button.prev {
+            background-color: #e2e8f0;
+            color: #4b5563;
+        }
+        
+        .quiz-button.next {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .quiz-button.submit {
+            background-color: var(--success);
+            color: white;
+        }
+        
+        .quiz-feedback {
+            margin-top: 15px;
+            padding: 10px;
+            border-radius: 6px;
+            display: none;
+        }
+        
+        .quiz-feedback.show {
+            display: block;
+        }
+        
+        .quiz-feedback.correct {
+            background-color: #dcfce7;
+            color: #166534;
+        }
+        
+        .quiz-feedback.incorrect {
+            background-color: #fee2e2;
+            color: #b91c1c;
+        }
+        
+        .interactive-card {
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .interactive-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        
+        .interactive-card.active {
+            border-color: var(--primary);
+            background-color: #f0f9ff;
+        }
+        
+        .color-palette {
+            display: flex;
+            gap: 10px;
+            margin: 15px 0;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+        .color-swatch {
+            width: 60px;
+            height: 60px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: transform 0.2s;
+            position: relative;
+        }
+        
+        .color-swatch:hover {
+            transform: scale(1.1);
+        }
+        
+        .color-code {
+            position: absolute;
+            bottom: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 10px;
+            background: rgba(0,0,0,0.7);
+            color: white;
+            padding: 2px 4px;
+            border-radius: 3px;
+            white-space: nowrap;
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+        
+        .color-swatch:hover .color-code {
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="bg-white shadow-sm sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-4">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center">
+                    <div class="w-12 h-12 rounded-full gradient-bg flex items-center justify-center text-white font-bold text-xl">
+                        S
+                    </div>
+                    <h1 class="text-xl font-bold mr-3">Ahmed Tawheed</h1>
+                </div>
+                
+                <nav class="desktop-menu">
+                    <ul class="flex space-x-8 space-x-reverse">
+                        <li><a href="#intro" class="nav-link text-gray-700 hover:text-indigo-600">المقدمة</a></li>
+                        <li><a href="#components" class="nav-link text-gray-700 hover:text-indigo-600">المكونات</a></li>
+                        <li><a href="#examples" class="nav-link text-gray-700 hover:text-indigo-600">أمثلة</a></li>
+                        <li><a href="#ui-ux" class="nav-link text-gray-700 hover:text-indigo-600">UI/UX</a></li>
+                        <li><a href="#quiz" class="nav-link text-gray-700 hover:text-indigo-600">اختبار</a></li>
+                    </ul>
+                </nav>
+                
+                <button class="mobile-menu text-gray-700 focus:outline-none" id="mobile-menu-button">
+                    <i class="fas fa-bars text-2xl"></i>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Mobile Menu -->
+        <div class="mobile-menu hidden bg-white py-4 px-4 shadow-lg" id="mobile-menu">
+            <ul class="space-y-3">
+                <li><a href="#intro" class="block text-gray-700 hover:text-indigo-600 py-2">المقدمة</a></li>
+                <li><a href="#components" class="block text-gray-700 hover:text-indigo-600 py-2">المكونات</a></li>
+                <li><a href="#examples" class="block text-gray-700 hover:text-indigo-600 py-2">أمثلة</a></li>
+                <li><a href="#ui-ux" class="block text-gray-700 hover:text-indigo-600 py-2">UI/UX</a></li>
+                <li><a href="#quiz" class="block text-gray-700 hover:text-indigo-600 py-2">اختبار</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="gradient-bg text-white section-padding">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row items-center">
+                <div class="md:w-1/2 mb-10 md:mb-0" data-aos="fade-right">
+                    <h1 class="text-4xl md:text-5xl font-bold mb-4">التغذية البصرية</h1>
+                    <p class="text-xl mb-6">تطوير الذوق البصري والمخزون المرجعي للمصمم</p>
+                    <div class="flex space-x-4 space-x-reverse">
+                        <a href="#components" class="bg-white text-indigo-600 px-6 py-3 rounded-lg font-medium hover:bg-gray-100 transition">
+                            ابدأ التعلم
+                        </a>
+                        <a href="#quiz" class="bg-transparent border-2 border-white text-white px-6 py-3 rounded-lg font-medium hover:bg-white hover:text-indigo-600 transition">
+                            اختبر معلوماتك
+                        </a>
+                    </div>
+                </div>
+                <div class="md:w-1/2 flex justify-center" data-aos="fade-left">
+                    <div class="relative">
+                        <div class="w-64 h-64 md:w-80 md:h-80 rounded-full bg-white bg-opacity-20 flex items-center justify-center">
+                            <i class="fas fa-eye text-8xl"></i>
+                        </div>
+                        <div class="absolute -top-4 -right-4 w-16 h-16 rounded-full bg-red-500 flex items-center justify-center animate-bounce">
+                            <i class="fas fa-palette text-2xl text-white"></i>
+                        </div>
+                        <div class="absolute -bottom-4 -left-4 w-16 h-16 rounded-full bg-blue-500 flex items-center justify-center animate-bounce" style="animation-delay: 0.5s">
+                            <i class="fas fa-images text-2xl text-white"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Introduction Section -->
+    <section id="intro" class="section-padding bg-white">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12" data-aos="fade-up">
+                <h2 class="text-3xl font-bold mb-4">مقدمة سريعة</h2>
+                <div class="w-24 h-1 bg-indigo-600 mx-auto"></div>
+            </div>
+            
+            <div class="max-w-3xl mx-auto bg-indigo-50 rounded-xl p-8 card-shadow" data-aos="fade-up">
+                <p class="text-lg mb-4">التغذية البصرية (Visual Feeding / Visual Nutrition) هي عملية واعية بتتعرض فيها لصور، تصاميم، لوحات، أنماط لونية، فوتوغرافيا، واجهات، حركات/أنيميشن… بهدف "تغذية" الذاكرة البصرية عند المصمم — يعني تزويد دماغك بأمثلة بصريّة يخزنها العقل ويتعلّم منها الأنماط، التراكيب، اللحظات الانفعالية، والتكوين الجمالي اللى بعد كده بتأثر على اختياراتك التصميمية. العملية دي مش بس تبص، لكن: تلاحِظ، تحلل، تصنّف، وتستنسخ لفترات تدريبية علشان العين تتعلم لغة بصرية أعمق.</p>
+                
+                <div class="mt-6 p-4 bg-white rounded-lg interactive-example" onclick="showNotification('info', 'هذا مثال على تحليل صورة - لاحظ التكوين والألوان والتباين')">
+                    <h3 class="text-lg font-bold mb-2 text-indigo-700">جرب بنفسك:</h3>
+                    <p class="mb-3">انقر على الصورة أدناه لتجربة مثال تفاعلي للتغذية البصرية</p>
+                    <div class="relative overflow-hidden rounded-lg">
+                        <img src="https://images.unsplash.com/photo-1560472354-b33ff0c44a43?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" alt="مثال على صورة للتحليل" class="w-full h-64 object-cover">
+                        <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity">
+                            <span class="text-white text-xl font-bold">اضغط للتحليل</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Components Section -->
+    <section id="components" class="section-padding bg-gray-50">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12" data-aos="fade-up">
+                <h2 class="text-3xl font-bold mb-4">مكوّنات التغذية البصرية وأفعالها الأساسية</h2>
+                <div class="w-24 h-1 bg-indigo-600 mx-auto"></div>
+            </div>
+            
+            <div class="space-y-12">
+                <!-- Organized Viewing -->
+                <div class="bg-white rounded-xl p-8 card-shadow" data-aos="fade-up">
+                    <h3 class="text-2xl font-bold mb-6 text-indigo-700">المشاهدة المنظمة</h3>
+                    <p class="mb-6">متابعة مجموعات (Behance, Dribbble, Pinterest) ومجلات وفنانا.</p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+                        <div>
+                            <h4 class="text-xl font-bold mb-4 text-purple-700">كيفية المشاهدة المنظمة:</h4>
+                            <ul class="space-y-3">
+                                <li class="flex items-start">
+                                    <i class="fas fa-circle text-xs text-purple-500 mt-1.5 ml-2"></i>
+                                    <div>
+                                        <span class="font-bold">تحديد مصادر محددة:</span> Behance, Dribbble, Pinterest, Awwwards.
+                                    </div>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-circle text-xs text-purple-500 mt-1.5 ml-2"></i>
+                                    <div>
+                                        <span class="font-bold">تحديد وقت محدد يوميًا:</span> 15-30 دقيقة يوميًا.
+                                    </div>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-circle text-xs text-purple-500 mt-1.5 ml-2"></i>
+                                    <div>
+                                        <span class="font-bold">التركيز على مجالات محددة:</span> واجهات تطبيقات، تصاميم جرافيك، فوتوغرافيا.
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                        
+                        <div class="flex flex-col justify-center">
+                            <div class="bg-gray-100 rounded-xl p-6">
+                                <div class="flex justify-between items-center mb-3">
+                                    <span class="font-bold">مصادر التغذية البصرية</span>
+                                    <span class="text-sm text-gray-500">يومي</span>
+                                </div>
+                                <div class="flex flex-wrap">
+                                    <div class="bg-indigo-100 text-indigo-800 px-3 py-1 rounded-full m-1 cursor-pointer hover:bg-indigo-200" onclick="showNotification('info', 'Behance منصة لعرض الأعمال الإبداعية')">Behance</div>
+                                    <div class="bg-indigo-100 text-indigo-800 px-3 py-1 rounded-full m-1 cursor-pointer hover:bg-indigo-200" onclick="showNotification('info', 'Dribbble مجتمع للمصممين لعرض أعمالهم')">Dribbble</div>
+                                    <div class="bg-indigo-100 text-indigo-800 px-3 py-1 rounded-full m-1 cursor-pointer hover:bg-indigo-200" onclick="showNotification('info', 'Pinterest أداة لتجميع الصور والإلهام')">Pinterest</div>
+                                    <div class="bg-indigo-100 text-indigo-800 px-3 py-1 rounded-full m-1 cursor-pointer hover:bg-indigo-200" onclick="showNotification('info', 'Awwwards يكرم أفضل تصميمات الويب')">Awwwards</div>
+                                    <div class="bg-indigo-100 text-indigo-800 px-3 py-1 rounded-full m-1 cursor-pointer hover:bg-indigo-200" onclick="showNotification('info', 'Instagram منصة جيدة للإلهام البصري')">Instagram</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white rounded-xl p-6 card-shadow">
+                        <h4 class="font-bold mb-4">جرب بنفسك: تحليل صورة</h4>
+                        <p>اختر صورة من معرض الصور أدناه وحلل عناصرها البصرية</p>
+                        <div class="grid grid-cols-3 gap-4 mt-4">
+                            <div class="relative overflow-hidden rounded-lg cursor-pointer" onclick="showNotification('success', 'تحليل جيد! لاحظ التباين بين الألوان الداكنة والفاتحة')">
+                                <img src="https://images.unsplash.com/photo-1558979158-65a1eaa08691?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="صورة 1" class="w-full h-40 object-cover">
+                                <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity">
+                                    <span class="text-white text-sm font-bold">اضغط للتحليل</span>
+                                </div>
+                            </div>
+                            <div class="relative overflow-hidden rounded-lg cursor-pointer" onclick="showNotification('success', 'ممتاز! لاحظ تكوين العناصر وتوزيعها')">
+                                <img src="https://images.unsplash.com/photo-1579546929662-711aa81148cf?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="صورة 2" class="w-full h-40 object-cover">
+                                <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity">
+                                    <span class="text-white text-sm font-bold">اضغط للتحليل</span>
+                                </div>
+                            </div>
+                            <div class="relative overflow-hidden rounded-lg cursor-pointer" onclick="showNotification('success', 'رائع! لاحظ استخدام المسافات السلبية بشكل فعال')">
+                                <img src="https://images.unsplash.com/photo-1567095761054-7a02e69e5c43?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="صورة 3" class="w-full h-40 object-cover">
+                                <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity">
+                                    <span class="text-white text-sm font-bold">اضغط للتحليل</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Analysis -->
+                <div class="bg-white rounded-xl p-8 card-shadow" data-aos="fade-up">
+                    <h3 class="text-2xl font-bold mb-6 text-indigo-700">التحليل</h3>
+                    <p class="mb-6">نحلّل التكوين، التباين، المسافات، التسلسل البصري، الاختيارات الطباعية والألوان.</p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+                        <div>
+                            <h4 class="text-xl font-bold mb-4 text-purple-700">عناصر التحليل:</h4>
+                            <ul class="space-y-3">
+                                <li class="flex items-start">
+                                    <i class="fas fa-circle text-xs text-purple-500 mt-1.5 ml-2"></i>
+                                    <div>
+                                        <span class="font-bold">التكوين (Composition):</span> ترتيب العناصر وتوازنها.
+                                    </div>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-circle text-xs text-purple-500 mt-1.5 ml-2"></i>
+                                    <div>
+                                        <span class="font-bold">التباين (Contrast):</span> الاختلافات في اللون، الحجم، الشكل.
+                                    </div>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-circle text-xs text-purple-500 mt-1.5 ml-2"></i>
+                                    <div>
+                                        <span class="font-bold">المسافات (Spacing):</span> الهوامش والمسافات بين العناصر.
+                                    </div>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-circle text-xs text-purple-500 mt-1.5 ml-2"></i>
+                                    <div>
+                                        <span class="font-bold">التسلسل البصري (Visual Hierarchy):</span> ترتيب العناصر حسب الأهمية.
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                        
+                        <div class="flex flex-col justify-center">
+                            <div class="bg-gray-100 rounded-xl p-6">
+                                <div class="flex justify-between items-center mb-3">
+                                    <span class="font-bold">تحليل تصميم</span>
+                                    <span class="text-sm text-gray-500">مثال</span>
+                                </div>
+                                <div class="grid grid-cols-2 gap-2">
+                                    <div class="bg-white p-2 rounded text-center text-sm">تكوين</div>
+                                    <div class="bg-indigo-100 p-2 rounded text-center text-sm">متماثل</div>
+                                    <div class="bg-white p-2 rounded text-center text-sm">تباين</div>
+                                    <div class="bg-indigo-100 p-2 rounded text-center text-sm">عالي</div>
+                                    <div class="bg-white p-2 rounded text-center text-sm">مسافات</div>
+                                    <div class="bg-indigo-100 p-2 rounded text-center text-sm">منتظمة</div>
+                                    <div class="bg-white p-2 rounded text-center text-sm">تسلسل</div>
+                                    <div class="bg-indigo-100 p-2 rounded text-center text-sm">هرمي</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white rounded-xl p-6 card-shadow">
+                        <h4 class="font-bold mb-4">جرب بنفسك: تحليل تكوين</h4>
+                        <p>انظر إلى التكوين أدناه وحلل عناصره الرئيسية</p>
+                        <div class="grid grid-cols-2 gap-6 mt-4">
+                            <div class="bg-gray-100 p-4 rounded-lg">
+                                <h5 class="font-bold mb-2">التكوين الأصلي</h5>
+                                <div class="bg-white p-4 rounded">
+                                    <div class="flex items-center justify-center mb-4">
+                                        <div class="w-16 h-16 bg-indigo-500 rounded-full"></div>
+                                    </div>
+                                    <div class="grid grid-cols-3 gap-2">
+                                        <div class="h-8 bg-indigo-200 rounded"></div>
+                                        <div class="h-8 bg-indigo-300 rounded"></div>
+                                        <div class="h-8 bg-indigo-400 rounded"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="bg-gray-100 p-4 rounded-lg">
+                                <h5 class="font-bold mb-2">تحليلك</h5>
+                                <div class="space-y-2">
+                                    <div class="flex items-center">
+                                        <input type="checkbox" id="composition" class="ml-2">
+                                        <label for="composition">تكوين متماثل</label>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <input type="checkbox" id="contrast" class="ml-2">
+                                        <label for="contrast">تباين عالي</label>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <input type="checkbox" id="spacing" class="ml-2">
+                                        <label for="spacing">مسافات منتظمة</label>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <input type="checkbox" id="hierarchy" class="ml-2">
+                                        <label for="hierarchy">تسلسل هرمي واضح</label>
+                                    </div>
+                                    <button class="mt-2 bg-indigo-600 text-white px-4 py-2 rounded" onclick="showNotification('success', 'تحليل ممتاز! هذه هي العناصر الرئيسية في التكوين')">
+                                        تأكيد التحليل
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Curation -->
+                <div class="bg-white rounded-xl p-8 card-shadow" data-aos="fade-up">
+                    <h3 class="text-2xl font-bold mb-6 text-indigo-700">التجميع (Curation)</h3>
+                    <p class="mb-6">حفظ أمثلة في moodboards أو مكتبة مرجعية.</p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+                        <div>
+                            <h4 class="text-xl font-bold mb-4 text-purple-700">أدوات التجميع:</h4>
+                            <ul class="space-y-3">
+                                <li class="flex items-start">
+                                    <i class="fas fa-circle text-xs text-purple-500 mt-1.5 ml-2"></i>
+                                    <div>
+                                        <span class="font-bold">Pinterest:</span> إنشاء لوحات (boards) للمواضيع المختلفة.
+                                    </div>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-circle text-xs text-purple-500 mt-1.5 ml-2"></i>
+                                    <div>
+                                        <span class="font-bold">Milanote:</span> أدوات متقدمة لتنظيم المراجع البصرية.
+                                    </div>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-circle text-xs text-purple-500 mt-1.5 ml-2"></i>
+                                    <div>
+                                        <span class="font-bold">Notion:</span> صفحات لتنظيم المراجع مع إمكانية إضافة ملاحظات.
+                                    </div>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-circle text-xs text-purple-500 mt-1.5 ml-2"></i>
+                                    <div>
+                                        <span class="font-bold">Figma:</span> إنشاء صفحات لمراجع التصميم.
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                        
+                        <div class="flex flex-col justify-center">
+                            <div class="bg-gray-100 rounded-xl p-6">
+                                <div class="flex justify-between items-center mb-3">
+                                    <span class="font-bold">Moodboard</span>
+                                    <span class="text-sm text-gray-500">مثال</span>
+                                </div>
+                                <div class="grid grid-cols-3 gap-2">
+                                    <div class="h-20 bg-indigo-500 rounded"></div>
+                                    <div class="h-20 bg-purple-500 rounded"></div>
+                                    <div class="h-20 bg-pink-500 rounded"></div>
+                                    <div class="h-20 bg-red-500 rounded"></div>
+                                    <div class="h-20 bg-yellow-500 rounded"></div>
+                                    <div class="h-20 bg-green-500 rounded"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white rounded-xl p-6 card-shadow">
+                        <h4 class="font-bold mb-4">جرب بنفسك: إنشاء لوحة ألوان</h4>
+                        <p>اختر الألوان التي تتناسب مع بعضها لإنشاء لوحة ألوان متناغمة</p>
+                        <div class="color-palette" id="color-palette">
+                            <div class="color-swatch" style="background-color: #4f46e5;" onclick="selectColor(this)">
+                                <span class="color-code">#4f46e5</span>
+                            </div>
+                            <div class="color-swatch" style="background-color: #8b5cf6;" onclick="selectColor(this)">
+                                <span class="color-code">#8b5cf6</span>
+                            </div>
+                            <div class="color-swatch" style="background-color: #ec4899;" onclick="selectColor(this)">
+                                <span class="color-code">#ec4899</span>
+                            </div>
+                            <div class="color-swatch" style="background-color: #f43f5e;" onclick="selectColor(this)">
+                                <span class="color-code">#f43f5e</span>
+                            </div>
+                            <div class="color-swatch" style="background-color: #f59e0b;" onclick="selectColor(this)">
+                                <span class="color-code">#f59e0b</span>
+                            </div>
+                            <div class="color-swatch" style="background-color: #10b981;" onclick="selectColor(this)">
+                                <span class="color-code">#10b981</span>
+                            </div>
+                        </div>
+                        <div class="mt-4 text-center">
+                            <button class="bg-indigo-600 text-white px-4 py-2 rounded" onclick="showNotification('success', 'تم إنشاء لوحة الألوان بنجاح!')">
+                                حفظ لوحة الألوان
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Quick Copying -->
+                <div class="bg-white rounded-xl p-8 card-shadow" data-aos="fade-up">
+                    <h3 class="text-2xl font-bold mb-6 text-indigo-700">النسخ السريع</h3>
+                    <p class="mb-6">إعادة تصميم جزء صغير (مثلاً: زر/بطاقة) لتدريب العين واليد.</p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+                        <div>
+                            <h4 class="text-xl font-bold mb-4 text-purple-700">فوائد النسخ السريع:</h4>
+                            <ul class="space-y-3">
+                                <li class="flex items-start">
+                                    <i class="fas fa-circle text-xs text-purple-500 mt-1.5 ml-2"></i>
+                                    <div>
+                                        <span class="font-bold">تدريب العين:</span> تعلم ملاحظة التفاصيل الدقيقة.
+                                    </div>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-circle text-xs text-purple-500 mt-1.5 ml-2"></i>
+                                    <div>
+                                        <span class="font-bold">تدريب اليد:</span> تحسين المهارات التنفيذية.
+                                    </div>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-circle text-xs text-purple-500 mt-1.5 ml-2"></i>
+                                    <div>
+                                        <span class="font-bold">تخزين الذاكرة:</span> تثبيت المفاهيم في الذاكرة طويلة المدى.
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                        
+                        <div class="flex flex-col justify-center">
+                            <div class="bg-gray-100 rounded-xl p-6">
+                                <div class="flex justify-between items-center mb-3">
+                                    <span class="font-bold">نسخ زر</span>
+                                    <span class="text-sm text-gray-500">مثال</span>
+                                </div>
+                                <div class="flex justify-center items-center space-x-4 space-x-reverse">
+                                    <div class="bg-white p-4 rounded-lg border border-gray-200">
+                                        <div class="px-4 py-2 bg-indigo-600 text-white rounded">الأصلي</div>
+                                    </div>
+                                    <i class="fas fa-arrow-left text-indigo-600"></i>
+                                    <div class="bg-white p-4 rounded-lg border border-gray-200">
+                                        <div class="px-4 py-2 bg-indigo-600 text-white rounded">النسخ</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white rounded-xl p-6 card-shadow">
+                        <h4 class="font-bold mb-4">جرب بنفسك: نسخ زر</h4>
+                        <p>حاول نسخ الزر أدناه مع تغيير بسيط في اللون أو الحجم</p>
+                        <div class="flex flex-col items-center mt-4">
+                            <div class="mb-4">
+                                <h5 class="font-bold mb-2">الأصل</h5>
+                                <button class="px-6 py-3 bg-indigo-600 text-white rounded-lg font-medium hover:bg-indigo-700 transition">
+                                    اضغط هنا
+                                </button>
+                            </div>
+                            <div class="mb-4">
+                                <h5 class="font-bold mb-2">نسختك</h5>
+                                <div class="flex space-x-2 space-x-reverse">
+                                    <button class="px-4 py-2 bg-indigo-500 text-white rounded text-sm" onclick="showNotification('success', 'جيد! لقد قمت بتغيير حجم الزر')">
+                                        صغير
+                                    </button>
+                                    <button class="px-6 py-3 bg-purple-600 text-white rounded font-medium" onclick="showNotification('success', 'ممتاز! لقد قمت بتغيير لون الزر')">
+                                        متوسط
+                                    </button>
+                                    <button class="px-8 py-4 bg-pink-600 text-white rounded-lg text-lg" onclick="showNotification('success', 'رائع! لقد قمت بتغيير حجم ولون الزر')">
+                                        كبير
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Application -->
+                <div class="bg-white rounded-xl p-8 card-shadow" data-aos="fade-up">
+                    <h3 class="text-2xl font-bold mb-6 text-indigo-700">التطبيق والتعديل</h3>
+                    <p class="mb-6">أخذ الفكرة وتطبيقها مع تعديل لتناسب حالة المستخدم/السياق.</p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+                        <div>
+                            <h4 class="text-xl font-bold mb-4 text-purple-700">خطوات التطبيق:</h4>
+                            <ul class="space-y-3">
+                                <li class="flex items-start">
+                                    <i class="fas fa-circle text-xs text-purple-500 mt-1.5 ml-2"></i>
+                                    <div>
+                                        <span class="font-bold">فهم الفكرة الأصلية:</span> تحليل المبادئ الأساسية للتصميم.
+                                    </div>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-circle text-xs text-purple-500 mt-1.5 ml-2"></i>
+                                    <div>
+                                        <span class="font-bold">تطبيق السياق:</span> تعديل التصميم ليناسب احتياجات المستخدم.
+                                    </div>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-circle text-xs text-purple-500 mt-1.5 ml-2"></i>
+                                    <div>
+                                        <span class="font-bold">التقييم والتحسين:</span> اختبار التصميم المعدل وتحسينه.
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                        
+                        <div class="flex flex-col justify-center">
+                            <div class="bg-gray-100 rounded-xl p-6">
+                                <div class="flex justify-between items-center mb-3">
+                                    <span class="font-bold">تطبيق فكرة</span>
+                                    <span class="text-sm text-gray-500">مثال</span>
+                                </div>
+                                <div class="space-y-3">
+                                    <div class="bg-white p-3 rounded-lg border border-gray-200">
+                                        <div class="text-sm font-medium mb-1">فكرة أصلية</div>
+                                        <div class="h-8 bg-indigo-100 rounded"></div>
+                                    </div>
+                                    <div class="text-center">
+                                        <i class="fas fa-arrow-down text-indigo-600"></i>
+                                    </div>
+                                    <div class="bg-white p-3 rounded-lg border border-gray-200">
+                                        <div class="text-sm font-medium mb-1">تطبيق معدل</div>
+                                        <div class="h-8 bg-indigo-300 rounded"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white rounded-xl p-6 card-shadow">
+                        <h4 class="font-bold mb-4">جرب بنفسك: تطبيق فكرة</h4>
+                        <p>اختر أحد التصاميم أدناه وحاول تطبيق فكرته في سياق مختلف</p>
+                        <div class="grid grid-cols-2 gap-6 mt-4">
+                            <div class="bg-gray-100 p-4 rounded-lg">
+                                <h5 class="font-bold mb-2">تصميم الأصل</h5>
+                                <div class="bg-white p-4 rounded">
+                                    <div class="flex items-center justify-between mb-4">
+                                        <div class="w-10 h-10 bg-indigo-500 rounded-full"></div>
+                                        <div class="w-10 h-10 bg-purple-500 rounded-full"></div>
+                                        <div class="w-10 h-10 bg-pink-500 rounded-full"></div>
+                                    </div>
+                                    <div class="h-2 bg-gray-200 rounded"></div>
+                                </div>
+                            </div>
+                            <div class="bg-gray-100 p-4 rounded-lg">
+                                <h5 class="font-bold mb-2">تطبيقك</h5>
+                                <div class="space-y-3">
+                                    <div class="flex items-center">
+                                        <input type="radio" id="app1" name="application" class="ml-2">
+                                        <label for="app1">تطبيق في قائمة تنقل</label>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <input type="radio" id="app2" name="application" class="ml-2">
+                                        <label for="app2">تطبيق في بطاقة منتج</label>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <input type="radio" id="app3" name="application" class="ml-2">
+                                        <label for="app3">تطبيق في صفحة تعريف</label>
+                                    </div>
+                                    <button class="mt-2 bg-indigo-600 text-white px-4 py-2 rounded" onclick="showNotification('success', 'تطبيق ممتاز! لقد قمت بتطبيق الفكرة في سياق جديد')">
+                                        تأكيد التطبيق
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Benefits Section -->
+    <section class="section-padding bg-white">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12" data-aos="fade-up">
+                <h2 class="text-3xl font-bold mb-4">فوائد التغذية البصرية</h2>
+                <div class="w-24 h-1 bg-indigo-600 mx-auto"></div>
+            </div>
+            
+            <div class="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6" data-aos="fade-up">
+                <div class="bg-indigo-50 p-6 rounded-xl card-shadow hover-scale interactive-card" onclick="showNotification('info', 'التغذية البصرية تطور قدرتك على تمييز التصاميم الجيدة')">
+                    <div class="flex items-start mb-4">
+                        <div class="bg-indigo-100 p-3 rounded-full mr-4">
+                            <i class="fas fa-eye text-indigo-600 text-xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold">تطوير الذوق البصري</h3>
+                    </div>
+                    <p class="text-gray-600">يطوّر الذوق البصري والقُدرة على التمييز بين تصاميم جيدة/ضعيفة.</p>
+                </div>
+                
+                <div class="bg-purple-50 p-6 rounded-xl card-shadow hover-scale interactive-card" onclick="showNotification('info', 'بناء مخزون بصري يساعدك في عملية التصميم')">
+                    <div class="flex items-start mb-4">
+                        <div class="bg-purple-100 p-3 rounded-full mr-4">
+                            <i class="fas fa-brain text-purple-600 text-xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold">مخزون بصري سريع الاستدعاء</h3>
+                    </div>
+                    <p class="text-gray-600">يساعد في تكوين مخزون بصري سريع الاستدعاء لما تصمم.</p>
+                </div>
+                
+                <div class="bg-pink-50 p-6 rounded-xl card-shadow hover-scale interactive-card" onclick="showNotification('info', 'التغذية البصرية تفتح آفاقاً جديدة للإبداع')">
+                    <div class="flex items-start mb-4">
+                        <div class="bg-pink-100 p-3 rounded-full mr-4">
+                            <i class="fas fa-lightbulb text-pink-600 text-xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold">تقليل البلوك الإبداعي</h3>
+                    </div>
+                    <p class="text-gray-600">يسرّع عملية الإلهام ويقلّل «البلوك الإبداعي».</p>
+                </div>
+                
+                <div class="bg-yellow-50 p-6 rounded-xl card-shadow hover-scale interactive-card" onclick="showNotification('info', 'التغذية البصرية المشتركة تحسن اتساق المنتجات')">
+                    <div class="flex items-start mb-4">
+                        <div class="bg-yellow-100 p-3 rounded-full mr-4">
+                            <i class="fas fa-users text-yellow-600 text-xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold">اتساق البصرية في المنتجات</h3>
+                    </div>
+                    <p class="text-gray-600">بيساهم في اتساق البصرية في المنتجات لما الفريق كله يشترك في نفس مراجع التغذية البصرية.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Examples Section -->
+    <section id="examples" class="section-padding bg-gray-50">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12" data-aos="fade-up">
+                <h2 class="text-3xl font-bold mb-4">أمثلة توضيحية</h2>
+                <div class="w-24 h-1 bg-indigo-600 mx-auto"></div>
+                <p class="mt-4 text-gray-600 max-w-2xl mx-auto">5 أمثلة متدرجة في الصعوبة</p>
+            </div>
+            
+            <div class="max-w-4xl mx-auto space-y-8">
+                <!-- Example 1 -->
+                <div class="bg-white rounded-xl p-8 card-shadow" data-aos="fade-up">
+                    <h3 class="text-xl font-bold mb-4 text-indigo-700">مثال 1 — سهل: جهاز الإلهام اليومي (Daily Scroll Collage)</h3>
+                    <div class="flex flex-col md:flex-row items-center gap-6">
+                        <div class="flex-1">
+                            <div class="bg-white p-6 rounded-lg mb-4">
+                                <div class="flex justify-between items-center mb-4">
+                                    <h4 class="font-bold">كيفية التنفيذ:</h4>
+                                    <span class="text-sm bg-indigo-100 text-indigo-800 px-2 py-1 rounded">سهل</span>
+                                </div>
+                                <p class="mb-4">كل يوم خد 10 دقايق تتصفح إنستجرام/Behance وحفظ 3 صور في فولدر "Daily-Inspo".</p>
+                                <div class="bg-indigo-50 p-4 rounded-lg">
+                                    <h5 class="font-bold mb-2">النتيجة المتوقعة:</h5>
+                                    <p>بعد شهر هتلاقي مخزون من 90 صورة تلهم ألوان/تكوينات بسيطة.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white rounded-xl p-6 card-shadow">
+                        <h4 class="font-bold mb-4">جرب بنفسك: إنشاء مجلد إلهام يومي</h4>
+                        <p>اختر 3 صور من المعروضة أدناه لتكون بداية لمجلد الإلهام اليومي الخاص بك</p>
+                        <div class="grid grid-cols-3 gap-4 mt-4">
+                            <div class="relative overflow-hidden rounded-lg cursor-pointer" onclick="toggleImageSelection(this)">
+                                <img src="https://images.unsplash.com/photo-1558979158-65a1eaa08691?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="صورة 1" class="w-full h-40 object-cover">
+                                <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity">
+                                    <i class="fas fa-check text-white text-2xl"></i>
+                                </div>
+                            </div>
+                            <div class="relative overflow-hidden rounded-lg cursor-pointer" onclick="toggleImageSelection(this)">
+                                <img src="https://images.unsplash.com/photo-1579546929662-711aa81148cf?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="صورة 2" class="w-full h-40 object-cover">
+                                <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity">
+                                    <i class="fas fa-check text-white text-2xl"></i>
+                                </div>
+                            </div>
+                            <div class="relative overflow-hidden rounded-lg cursor-pointer" onclick="toggleImageSelection(this)">
+                                <img src="https://images.unsplash.com/photo-1567095761054-7a02e69e5c43?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="صورة 3" class="w-full h-40 object-cover">
+                                <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity">
+                                    <i class="fas fa-check text-white text-2xl"></i>
+                                </div>
+                            </div>
+                            <div class="relative overflow-hidden rounded-lg cursor-pointer" onclick="toggleImageSelection(this)">
+                                <img src="https://images.unsplash.com/photo-1558591710-4b4a1ae0f04d?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="صورة 4" class="w-full h-40 object-cover">
+                                <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity">
+                                    <i class="fas fa-check text-white text-2xl"></i>
+                                </div>
+                            </div>
+                            <div class="relative overflow-hidden rounded-lg cursor-pointer" onclick="toggleImageSelection(this)">
+                                <img src="https://images.unsplash.com/photo-1560472354-b33ff0c44a43?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="صورة 5" class="w-full h-40 object-cover">
+                                <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity">
+                                    <i class="fas fa-check text-white text-2xl"></i>
+                                </div>
+                            </div>
+                            <div class="relative overflow-hidden rounded-lg cursor-pointer" onclick="toggleImageSelection(this)">
+                                <img src="https://images.unsplash.com/photo-1519681393784-d120267933ba?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="صورة 6" class="w-full h-40 object-cover">
+                                <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity">
+                                    <i class="fas fa-check text-white text-2xl"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mt-4 text-center">
+                            <button class="bg-indigo-600 text-white px-4 py-2 rounded" onclick="showNotification('success', 'تم حفظ الصور في مجلد الإلهام اليومي!')">
+                                حفظ الصور المختارة
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Example 2 -->
+                <div class="bg-white rounded-xl p-8 card-shadow" data-aos="fade-up">
+                    <h3 class="text-xl font-bold mb-4 text-indigo-700">مثال 2 — متوسط: moodboard أسبوعي لموضوع واحد</h3>
+                    <div class="flex flex-col md:flex-row items-center gap-6">
+                        <div class="flex-1">
+                            <div class="bg-white p-6 rounded-lg mb-4">
+                                <div class="flex justify-between items-center mb-4">
+                                    <h4 class="font-bold">كيفية التنفيذ:</h4>
+                                    <span class="text-sm bg-purple-100 text-purple-800 px-2 py-1 rounded">متوسط</span>
+                                </div>
+                                <p class="mb-4">اختار موضوع (مثلاً: "واجهات الداكنة" أو "تصاميم بطاقات بنكية") وجمّع 20 عنصر (صور، ألوان، أيقونات) واعمل تصنيف.</p>
+                                <div class="bg-purple-50 p-4 rounded-lg">
+                                    <h5 class="font-bold mb-2">النتيجة المتوقعة:</h5>
+                                    <p>تتعلم علاقات الألوان وتكوين الواجهة.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white rounded-xl p-6 card-shadow">
+                        <h4 class="font-bold mb-4">جرب بنفسك: إنشاء moodboard</h4>
+                        <p>اختر موضوعاً من القائمة أدناه وابدأ في تجميع العناصر الخاصة به</p>
+                        <div class="grid grid-cols-2 gap-4 mt-4">
+                            <div class="bg-white p-4 rounded-lg border-2 border-transparent hover:border-indigo-500 cursor-pointer interactive-card" onclick="selectMoodboardTopic(this, 'واجهات الداكنة')">
+                                <h5 class="font-bold mb-2">واجهات الداكنة</h5>
+                                <div class="grid grid-cols-3 gap-2">
+                                    <div class="h-12 bg-gray-800 rounded"></div>
+                                    <div class="h-12 bg-gray-700 rounded"></div>
+                                    <div class="h-12 bg-gray-900 rounded"></div>
+                                </div>
+                            </div>
+                            <div class="bg-white p-4 rounded-lg border-2 border-transparent hover:border-indigo-500 cursor-pointer interactive-card" onclick="selectMoodboardTopic(this, 'تصاميم بطاقات بنكية')">
+                                <h5 class="font-bold mb-2">تصاميم بطاقات بنكية</h5>
+                                <div class="grid grid-cols-3 gap-2">
+                                    <div class="h-12 bg-blue-500 rounded"></div>
+                                    <div class="h-12 bg-indigo-500 rounded"></div>
+                                    <div class="h-12 bg-purple-500 rounded"></div>
+                                </div>
+                            </div>
+                            <div class="bg-white p-4 rounded-lg border-2 border-transparent hover:border-indigo-500 cursor-pointer interactive-card" onclick="selectMoodboardTopic(this, 'تصاميم طبيعية')">
+                                <h5 class="font-bold mb-2">تصاميم طبيعية</h5>
+                                <div class="grid grid-cols-3 gap-2">
+                                    <div class="h-12 bg-green-500 rounded"></div>
+                                    <div class="h-12 bg-yellow-500 rounded"></div>
+                                    <div class="h-12 bg-blue-300 rounded"></div>
+                                </div>
+                            </div>
+                            <div class="bg-white p-4 rounded-lg border-2 border-transparent hover:border-indigo-500 cursor-pointer interactive-card" onclick="selectMoodboardTopic(this, 'تصاميم بسيطة')">
+                                <h5 class="font-bold mb-2">تصاميم بسيطة</h5>
+                                <div class="grid grid-cols-3 gap-2">
+                                    <div class="h-12 bg-white border rounded"></div>
+                                    <div class="h-12 bg-gray-100 rounded"></div>
+                                    <div class="h-12 bg-gray-200 rounded"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mt-4 text-center">
+                            <button class="bg-indigo-600 text-white px-4 py-2 rounded" onclick="showNotification('success', 'تم إنشاء Moodboard بنجاح!')">
+                                إنشاء Moodboard
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Example 3 -->
+                <div class="bg-white rounded-xl p-8 card-shadow" data-aos="fade-up">
+                    <h3 class="text-xl font-bold mb-4 text-indigo-700">مثال 3 — أصعب شوي: تمرين الانعكاس (Reverse-engineer)</h3>
+                    <div class="flex flex-col md:flex-row items-center gap-6">
+                        <div class="flex-1">
+                            <div class="bg-white p-6 rounded-lg mb-4">
+                                <div class="flex justify-between items-center mb-4">
+                                    <h4 class="font-bold">كيفية التنفيذ:</h4>
+                                    <span class="text-sm bg-pink-100 text-pink-800 px-2 py-1 rounded">أصعب شوي</span>
+                                </div>
+                                <p class="mb-4">خد صفحة واجهة تعجبك، وحاول تعيد رسم الـ layout والـ spacing والـ typography بدون نسخ الألوان.</p>
+                                <div class="bg-pink-50 p-4 rounded-lg">
+                                    <h5 class="font-bold mb-2">النتيجة المتوقعة:</h5>
+                                    <p>تفهم الشبكات (grid) ونسب المسافات وسبب اختيار المصمم الأصلي.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white rounded-xl p-6 card-shadow">
+                        <h4 class="font-bold mb-4">جرب بنفسك: تحليل واجهة</h4>
+                        <p>حلل الواجهة أدناه وحاول إعادة تصميمها مع التركيز على التكوين والمسافات</p>
+                        <div class="grid grid-cols-2 gap-6 mt-4">
+                            <div class="bg-gray-100 p-4 rounded-lg">
+                                <h5 class="font-bold mb-2">الواجهة الأصلية</h5>
+                                <div class="bg-white p-4 rounded">
+                                    <div class="h-8 bg-gray-300 rounded mb-3"></div>
+                                    <div class="h-4 bg-gray-200 rounded mb-2"></div>
+                                    <div class="h-4 bg-gray-200 rounded w-3/4 mb-4"></div>
+                                    <div class="grid grid-cols-2 gap-2 mb-4">
+                                        <div class="h-20 bg-gray-200 rounded"></div>
+                                        <div class="h-20 bg-gray-200 rounded"></div>
+                                    </div>
+                                    <div class="h-10 bg-indigo-500 rounded"></div>
+                                </div>
+                            </div>
+                            <div class="bg-gray-100 p-4 rounded-lg">
+                                <h5 class="font-bold mb-2">إعادة التصميم</h5>
+                                <div class="space-y-3">
+                                    <div class="flex items-center">
+                                        <input type="checkbox" id="layout" class="ml-2">
+                                        <label for="layout">حافظت على نفس التكوين</label>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <input type="checkbox" id="spacing" class="ml-2">
+                                        <label for="spacing">حافظت على نفس المسافات</label>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <input type="checkbox" id="typography" class="ml-2">
+                                        <label for="typography">حافظت على نفس الطباعة</label>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <input type="checkbox" id="colors" class="ml-2">
+                                        <label for="colors">غيرت الألوان</label>
+                                    </div>
+                                    <button class="mt-2 bg-indigo-600 text-white px-4 py-2 rounded" onclick="showNotification('success', 'تحليل ممتاز! لقد فهمت تكوين الواجهة')">
+                                        تأكيد التحليل
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Example 4 -->
+                <div class="bg-white rounded-xl p-8 card-shadow" data-aos="fade-up">
+                    <h3 class="text-xl font-bold mb-4 text-indigo-700">مثال 4 — أصعب: تحدي الزمن (Time-boxed Remix)</h3>
+                    <div class="flex flex-col md:flex-row items-center gap-6">
+                        <div class="flex-1">
+                            <div class="bg-white p-6 rounded-lg mb-4">
+                                <div class="flex justify-between items-center mb-4">
+                                    <h4 class="font-bold">كيفية التنفيذ:</h4>
+                                    <span class="text-sm bg-yellow-100 text-yellow-800 px-2 py-1 rounded">أصعب</span>
+                                </div>
+                                <p class="mb-4">اختر صورة فنية وعمل منها لوحة ألوان + أيقونات + نمط تكراري (pattern) خلال 45 دقيقة.</p>
+                                <div class="bg-yellow-50 p-4 rounded-lg">
+                                    <h5 class="font-bold mb-2">النتيجة المتوقعة:</h5>
+                                    <p>تحسّن سرعة التفكير البصري والتنفيذ.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white rounded-xl p-6 card-shadow">
+                        <h4 class="font-bold mb-4">جرب بنفسك: تحدي الزمن</h4>
+                        <p>اختر صورة من الصور أدناه وحاول استخراج لوحة ألوان منها في أسرع وقت</p>
+                        <div class="grid grid-cols-3 gap-4 mt-4">
+                            <div class="relative overflow-hidden rounded-lg cursor-pointer" onclick="startColorChallenge(this)">
+                                <img src="https://images.unsplash.com/photo-1578662996442-48f60103fc96?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="صورة 1" class="w-full h-40 object-cover">
+                                <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity">
+                                    <span class="text-white text-sm font-bold">ابدأ التحدي</span>
+                                </div>
+                            </div>
+                            <div class="relative overflow-hidden rounded-lg cursor-pointer" onclick="startColorChallenge(this)">
+                                <img src="https://images.unsplash.com/photo-1547036967-23d11aacaee0?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="صورة 2" class="w-full h-40 object-cover">
+                                <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity">
+                                    <span class="text-white text-sm font-bold">ابدأ التحدي</span>
+                                </div>
+                            </div>
+                            <div class="relative overflow-hidden rounded-lg cursor-pointer" onclick="startColorChallenge(this)">
+                                <img src="https://images.unsplash.com/photo-1518837695005-2083093ee35b?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="صورة 3" class="w-full h-40 object-cover">
+                                <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity">
+                                    <span class="text-white text-sm font-bold">ابدأ التحدي</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mt-4 text-center">
+                            <div id="color-challenge-timer" class="text-lg font-bold mb-2" style="display: none;">
+                                الوقت المتبقي: <span id="timer">45:00</span>
+                            </div>
+                            <button class="bg-indigo-600 text-white px-4 py-2 rounded" onclick="showNotification('info', 'اختر صورة لبدء التحدي')">
+                                بدء التحدي
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Example 5 -->
+                <div class="bg-white rounded-xl p-8 card-shadow" data-aos="fade-up">
+                    <h3 class="text-xl font-bold mb-4 text-indigo-700">مثال 5 — متقدّم: بناء قاموس بصري شخصي</h3>
+                    <div class="flex flex-col md:flex-row items-center gap-6">
+                        <div class="flex-1">
+                            <div class="bg-white p-6 rounded-lg mb-4">
+                                <div class="flex justify-between items-center mb-4">
+                                    <h4 class="font-bold">كيفية التنفيذ:</h4>
+                                    <span class="text-sm bg-green-100 text-green-800 px-2 py-1 rounded">متقدّم</span>
+                                </div>
+                                <p class="mb-4">عبر 3 شهور، صنّف أمثلتك حسب: أنماط زوايا الأزرار، ظلال، أحجام الصور، قواعد التباين، أزواج الخطوط.</p>
+                                <div class="bg-green-50 p-4 rounded-lg">
+                                    <h5 class="font-bold mb-2">النتيجة المتوقعة:</h5>
+                                    <p>عند تصميم واجهة جديدة هتطّلع على "قاموسك" وتطبق قواعد جاهزة بدل ما تفترض كل مرة.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white rounded-xl p-6 card-shadow">
+                        <h4 class="font-bold mb-4">جرب بنفسك: إنشاء قاموس بصري</h4>
+                        <p>ابدأ في إنشاء قاموسك البصري الشخصي بتصنيف العناصر أدناه</p>
+                        <div class="mt-4">
+                            <div class="mb-6">
+                                <h5 class="font-bold mb-2">أنماط زوايا الأزرار</h5>
+                                <div class="flex space-x-4 space-x-reverse">
+                                    <div class="flex flex-col items-center">
+                                        <button class="px-4 py-2 bg-indigo-600 text-white rounded-none mb-2" onclick="addToDictionary('زوايا حادة', this)">حادة</button>
+                                        <input type="checkbox" id="sharp-corners" class="dictionary-checkbox">
+                                    </div>
+                                    <div class="flex flex-col items-center">
+                                        <button class="px-4 py-2 bg-indigo-600 text-white rounded mb-2" onclick="addToDictionary('زوايا مستديرة قليلاً', this)">مستديرة قليلاً</button>
+                                        <input type="checkbox" id="slightly-rounded" class="dictionary-checkbox">
+                                    </div>
+                                    <div class="flex flex-col items-center">
+                                        <button class="px-4 py-2 bg-indigo-600 text-white rounded-full mb-2" onclick="addToDictionary('زوايا مستديرة بالكامل', this)">مستديرة بالكامل</button>
+                                        <input type="checkbox" id="fully-rounded" class="dictionary-checkbox">
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="text-center">
+                                <button class="bg-indigo-600 text-white px-4 py-2 rounded" onclick="showNotification('success', 'تم إضافة العناصر إلى قاموسك البصري!')">
+                                    حفظ في القاموس البصري
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Practical Tips Section -->
+    <section class="section-padding bg-white">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12" data-aos="fade-up">
+                <h2 class="text-3xl font-bold mb-4">نصايح عملية تفيدك فورًا</h2>
+                <div class="w-24 h-1 bg-indigo-600 mx-auto"></div>
+            </div>
+            
+            <div class="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6" data-aos="fade-up">
+                <div class="bg-indigo-50 p-6 rounded-xl card-shadow interactive-card" onclick="showNotification('info', 'ركز على لماذا التصميم جيد وليس فقط أنه جميل')">
+                    <div class="flex items-start mb-3">
+                        <i class="fas fa-sticky-note text-indigo-600 text-xl ml-3"></i>
+                        <h3 class="text-lg font-bold">خلّي ملاحظاتك مختصرة</h3>
+                    </div>
+                    <p class="text-gray-600">ركز على "لماذا؟" مش بس "حلو".</p>
+                </div>
+                
+                <div class="bg-purple-50 p-6 rounded-xl card-shadow interactive-card" onclick="showNotification('info', 'استخدم الأدوات لتنظيم مراجعك البصرية')">
+                    <div class="flex items-start mb-3">
+                        <i class="fas fa-tools text-purple-600 text-xl ml-3"></i>
+                        <h3 class="text-lg font-bold">استعمل أدوات</h3>
+                    </div>
+                    <p class="text-gray-600">Pinterest, Milanote, Notion, Figma (صفحات لمراجع).</p>
+                </div>
+                
+                <div class="bg-pink-50 p-6 rounded-xl card-shadow interactive-card" onclick="showNotification('info', 'الاستمرارية أهم من الجلسات الطويلة')">
+                    <div class="flex items-start mb-3">
+                        <i class="fas fa-clock text-pink-600 text-xl ml-3"></i>
+                        <h3 class="text-lg font-bold">خصص وقت صغير يومي</h3>
+                    </div>
+                    <p class="text-gray-600">بدل جلسة واحدة طويلة — الاستمرارية أهم.</p>
+                </div>
+                
+                <div class="bg-yellow-50 p-6 rounded-xl card-shadow interactive-card" onclick="showNotification('info', 'التعليم يعزز الفهم')">
+                    <div class="flex items-start mb-3">
+                        <i class="fas fa-chalkboard-teacher text-yellow-600 text-xl ml-3"></i>
+                        <h3 class="text-lg font-bold">علّم غيرك</h3>
+                    </div>
+                    <p class="text-gray-600">اشرح مثال لزميل — هتتعلم أسرع.</p>
+                </div>
+                
+                <div class="bg-green-50 p-6 rounded-xl card-shadow md:col-span-2 interactive-card" onclick="showNotification('info', 'كن ناقداً بناءً وليس مدمراً')">
+                    <div class="flex items-start mb-3">
+                        <i class="fas fa-balance-scale text-green-600 text-xl ml-3"></i>
+                        <h3 class="text-lg font-bold">خليك ناقد لكن مش قاسٍ</h3>
+                    </div>
+                    <p class="text-gray-600">هدفك الفهم مش الهدم.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- UI/UX Section -->
+    <section id="ui-ux" class="section-padding bg-gray-50">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12" data-aos="fade-up">
+                <h2 class="text-3xl font-bold mb-4">دور التغذية البصرية في مجال UI / UX</h2>
+                <div class="w-24 h-1 bg-indigo-600 mx-auto"></div>
+                <p class="mt-4 text-gray-600 max-w-2xl mx-auto">شرح تفصيلي ممل</p>
+            </div>
+            
+            <div class="max-w-4xl mx-auto space-y-8">
+                <!-- Visual Language -->
+                <div class="bg-white rounded-xl p-8 card-shadow" data-aos="fade-up">
+                    <h3 class="text-xl font-bold mb-4 text-indigo-700">لغة بصرية موحّدة (Visual Language)</h3>
+                    <p class="mb-6">التغذية البصرية بتساعد الفريق يبني مصطلحات بصرية مشتركة — ألوان، أيقونات، مسافات، أنماط أزرار. ده بيرجّع لسرعة تنفيذ واجهات متسقة.</p>
+                    <div class="bg-gray-100 p-4 rounded-lg">
+                        <h4 class="font-bold mb-2">مثال:</h4>
+                        <p>عندما يكون لدى الفريق نفس المراجع البصرية، يصبح من السهل الحفاظ على اتساق الواجهات عبر المنتج بأكمله، مما يقلل من وقت التنفيذ ويزيد من جودة المنتج النهائي.</p>
+                    </div>
+                </div>
+                
+                <!-- Design Patterns -->
+                <div class="bg-white rounded-xl p-8 card-shadow" data-aos="fade-up">
+                    <h3 class="text-xl font-bold mb-4 text-indigo-700">اختيار الأنماط (Design Patterns)</h3>
+                    <p class="mb-6">لما تتعرض لحلول واجهات متنوعة هتعرف إيه الأنماط المناسبة لمشاكل مستخدمين معينة (مثلاً: متى أستخدم bottom sheet ومتى أعمل modal).</p>
+                    <div class="bg-gray-100 p-4 rounded-lg">
+                        <h4 class="font-bold mb-2">مثال:</h4>
+                        <p>من خلال التغذية البصرية، ستتعرف على متى يكون استخدام bottom sheet أكثر ملاءمة من modal، بناءً على السياق ونوع المعلومات المقدمة للمستخدم.</p>
+                    </div>
+                </div>
+                
+                <!-- Usability -->
+                <div class="bg-white rounded-xl p-8 card-shadow" data-aos="fade-up">
+                    <h3 class="text-xl font-bold mb-4 text-indigo-700">تحسين قابلية الاستخدام (Usability)</h3>
+                    <p class="mb-6">فهمك للاختيارات البصرية يساعدك تبرز الحالة الحالية للمستخدم (state) — disabled/hover/focus — وده جزء من التغذية الراجعة بصريًا.</p>
+                    <div class="bg-gray-100 p-4 rounded-lg">
+                        <h4 class="font-bold mb-2">مثال:</h4>
+                        <p>عندما تفهم كيفية استخدام الألوان والظلال لتوضيح حالات العناصر المختلفة، يمكنك تصميم واجهات أكثر وضوحًا للمستخدم، مما يحسن من تجربة الاستخدام بشكل عام.</p>
+                    </div>
+                </div>
+                
+                <!-- Visual Hierarchy -->
+                <div class="bg-white rounded-xl p-8 card-shadow" data-aos="fade-up">
+                    <h3 class="text-xl font-bold mb-4 text-indigo-700">الهيكلة الهرمية (Visual Hierarchy)</h3>
+                    <p class="mb-6">التغذية البصرية تخليك تحسّن توزيع الأهمية البصريةّة (مين يبان أول؟ مين يتجاهل؟) وبالتالي تُسهّل التصفح.</p>
+                    <div class="bg-gray-100 p-4 rounded-lg">
+                        <h4 class="font-bold mb-2">مثال:</h4>
+                        <p>عندما تتعلم كيفية إنشاء تسلسل هرمي بصري فعال، يمكنك توجيه انتباه المستخدم إلى العناصر الأهم أولاً، مما يسهل عليه فهم الواجهة واستخدامها بسرعة.</p>
+                    </div>
+                </div>
+                
+                <!-- Aesthetics and Trust -->
+                <div class="bg-white rounded-xl p-8 card-shadow" data-aos="fade-up">
+                    <h3 class="text-xl font-bold mb-4 text-indigo-700">المعايير الجمالية + الثقة</h3>
+                    <p class="mb-6">واجهة مُتقنة بصريًا بتعكس احترافية وتكسب ثقة المستخدم، وده مهم للـ conversion و engagement.</p>
+                    <div class="bg-gray-100 p-4 rounded-lg">
+                        <h4 class="font-bold mb-2">مثال:</h4>
+                        <p>التصميم الجذاب والمحترف يزيد من ثقة المستخدم في المنتج، مما يزيد من احتمالية قيامه بالإجراءات المطلوبة (مثل الشراء أو التسجيل).</p>
+                    </div>
+                </div>
+                
+                <!-- Decision Speed -->
+                <div class="bg-white rounded-xl p-8 card-shadow" data-aos="fade-up">
+                    <h3 class="text-xl font-bold mb-4 text-indigo-700">سرعة اتخاذ القرار</h3>
+                    <p class="mb-6">لما يكون عندك مرجع بصري، اختياراتك للألوان والـ typography أسرع وأكثر تماسكًا، وده يوفّر وقت تجربة المستخدم لأنه بيتوقع سلوك الواجهة.</p>
+                    <div class="bg-gray-100 p-4 rounded-lg">
+                        <h4 class="font-bold mb-2">مثال:</h4>
+                        <p>عندما يكون لديك مرجع بصري غني، يمكنك اتخاذ قرارات التصميم بسرعة أكبر، مما يقلل من وقت التطوير ويسمح بتقديم المنتج للمستخدمين في وقت أقصر.</p>
+                    </div>
+                </div>
+                
+                <!-- Note -->
+                <div class="bg-yellow-50 rounded-xl p-6 border-r-4 border-yellow-500" data-aos="fade-up">
+                    <p class="font-medium">الملحوظة العملية: التغذية البصرية مش بديل للاختبار مع المستخدم — دايمًا اختبر. لكنها بتقوّي قرار المصمم قبل وأثناء الاختبار.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Quiz Section -->
+    <section id="quiz" class="section-padding bg-gray-50">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12" data-aos="fade-up">
+                <h2 class="text-3xl font-bold mb-4">اختبار التغذية البصرية</h2>
+                <div class="w-24 h-1 bg-indigo-600 mx-auto"></div>
+                <p class="mt-4 text-gray-600 max-w-2xl mx-auto">10 أسئلة اختيار من متعدد — للتأكد من الفهم</p>
+            </div>
+            
+            <div class="max-w-3xl mx-auto bg-white rounded-xl card-shadow p-8" data-aos="fade-up">
+                <div class="mb-6">
+                    <div class="flex justify-between items-center mb-2">
+                        <span class="text-sm font-medium">السؤال <span id="current-question">1</span> من 10</span>
+                        <span class="text-sm font-medium">النتيجة: <span id="score">0</span>/10</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progress" style="width: 10%"></div>
+                    </div>
+                </div>
+                
+                <div id="quiz-container">
+                    <!-- Question 1 -->
+                    <div class="question active" id="question-1">
+                        <h3 class="text-xl font-bold mb-6">التغذية البصرية هي:</h3>
+                        <div class="space-y-3">
+                            <div class="quiz-option border border-gray-300 rounded-lg p-4 cursor-pointer" data-question="1" data-option="A" data-correct="false">
+                                أ) مجرد نسخ أعمال مصممين آخرين.
+                            </div>
+                            <div class="quiz-option border border-gray-300 rounded-lg p-4 cursor-pointer" data-question="1" data-option="B" data-correct="true">
+                                ب) التعرض المنظّم لمواد بصرية لتحسين الذاكرة البصرية والذوق.
+                            </div>
+                            <div class="quiz-option border border-gray-300 rounded-lg p-4 cursor-pointer" data-question="1" data-option="C" data-correct="false">
+                                ج) إنشاء بروتوتايب نهائي فوراً.
+                            </div>
+                            <div class="quiz-option border border-gray-300 rounded-lg p-4 cursor-pointer" data-question="1" data-option="D" data-correct="false">
+                                د) تصفح وسائل التواصل فقط بدون تحليل.
+                            </div>
+                        </div>
+                        <div class="quiz-navigation">
+                            <button class="quiz-button prev" id="prev-1" onclick="prevQuestion()" disabled>
+                                السابق
+                            </button>
+                            <button class="quiz-button next" id="next-1" onclick="nextQuestion()" style="display: none;">
+                                التالي
+                            </button>
+                        </div>
+                        <div class="quiz-feedback" id="feedback-1"></div>
+                    </div>
+                    
+                    <!-- Question 2 -->
+                    <div class="question hidden" id="question-2">
+                        <h3 class="text-xl font-bold mb-6">أي من التالي ليس جزءًا من عملية التغذية البصرية؟</h3>
+                        <div class="space-y-3">
+                            <div class="quiz-option border border-gray-300 rounded-lg p-4 cursor-pointer" data-question="2" data-option="A" data-correct="false">
+                                أ) التحليل.
+                            </div>
+                            <div class="quiz-option border border-gray-300 rounded-lg p-4 cursor-pointer" data-question="2" data-option="B" data-correct="false">
+                                ب) التجميع.
+                            </div>
+                            <div class="quiz-option border border-gray-300 rounded-lg p-4 cursor-pointer" data-question="2" data-option="C" data-correct="true">
+                                ج) الاختبار مع المستخدم (Testing).
+                            </div>
+                            <div class="quiz-option border border-gray-300 rounded-lg p-4 cursor-pointer" data-question="2" data-option="D" data-correct="false">
+                                د) النسخ السريع.
+                            </div>
+                        </div>
+                        <div class="quiz-navigation">
+                            <button class="quiz-button prev" id="prev-2" onclick="prevQuestion()">
+                                السابق
+                            </button>
+                            <button class="quiz-button next" id="next-2" onclick="nextQuestion()" style="display: none;">
+                                التالي
+                            </button>
+                        </div>
+                        <div class="quiz-feedback" id="feedback-2"></div>
+                    </div>
+                    
+                    <!-- Question 3 -->
+                    <div class="question hidden" id="question-3">
+                        <h3 class="text-xl font-bold mb-6">أفضل أداة لتنظيم moodboards هي:</h3>
+                        <div class="space-y-3">
+                            <div class="quiz-option border border-gray-300 rounded-lg p-4 cursor-pointer" data-question="3" data-option="A" data-correct="true">
+                                أ) Milanote / Pinterest / Notion.
+                            </div>
+                            <div class="quiz-option border border-gray-300 rounded-lg p-4 cursor-pointer" data-question="3" data-option="B" data-correct="false">
+                                ب) Excel فقط.
+                            </div>
+                            <div class="quiz-option border border-gray-300 rounded-lg p-4 cursor-pointer" data-question="3" data-option="C" data-correct="false">
+                                ج) محرر نصوص بسيط.
+                            </div>
+                            <div class="quiz-option border border-gray-300 rounded-lg p-4 cursor-pointer" data-question="3" data-option="D" data-correct="false">
+                                د) أي برنامج مضغوط (zip).
+                            </div>
+                        </div>
+                        <div class="quiz-navigation">
+                            <button class="quiz-button prev" id="prev-3" onclick="prevQuestion()">
+                                السابق
+                            </button>
+                            <button class="quiz-button next" id="next-3" onclick="nextQuestion()" style="display: none;">
+                                التالي
+                            </button>
+                        </div>
+                        <div class="quiz-feedback" id="feedback-3"></div>
+                    </div>
+                    
+                    <!-- Question 4 -->
+                    <div class="question hidden" id="question-4">
+                        <h3 class="text-xl font-bold mb-6">التغذية البصرية تساعد المصمم على:</h3>
+                        <div class="space-y-3">
+                            <div class="quiz-option border border-gray-300 rounded-lg p-4 cursor-pointer" data-question="4" data-option="A" data-correct="true">
+                                أ) تحسين التناسق البصري والاختيارات السريعة.
+                            </div>
+                            <div class="quiz-option border border-gray-300 rounded-lg p-4 cursor-pointer" data-question="4" data-option="B" data-correct="false">
+                                ب) كتابة أكواد السيرفر.
+                            </div>
+                            <div class="quiz-option border border-gray-300 rounded-lg p-4 cursor-pointer" data-question="4" data-option="C" data-correct="false">
+                                ج) معرفة الأسعار في السوق.
+                            </div>
+                            <div class="quiz-option border border-gray-300 rounded-lg p-4 cursor-pointer" data-question="4" data-option="D" data-correct="false">
+                                د) تصميم المنتجات الميكانيكية فقط.
+                            </div>
+                        </div>
+                        <div class="quiz-navigation">
+                            <button class="quiz-button prev" id="prev-4" onclick="prevQuestion()">
+                                السابق
+                            </button>
+                            <button class="quiz-button next" id="next-4" onclick="nextQuestion()" style="display: none;">
+                                التالي
+                            </button>
+                        </div>
+                        <div class="quiz-feedback" id="feedback-4"></div>
+                    </div>
+                    
+                    <!-- Question 5 -->
+                    <div class="question hidden" id="question-5">
+                        <h3 class="text-xl font-bold mb-6">اختيار اللون الرئيسي لواجهة يعتمد غالبًا على:</h3>
+                        <div class="space-y-3">
+                            <div class="quiz-option border border-gray-300 rounded-lg p-4 cursor-pointer" data-question="5" data-option="A" data-correct="true">
+                                أ) مزاج الـ brand + مراجع بصرية (moodboard).
+                            </div>
+                            <div class="quiz-option border border-gray-300 rounded-lg p-4 cursor-pointer" data-question="5" data-option="B" data-correct="false">
+                                ب) لون الشاشات فقط.
+                            </div>
+                            <div class="quiz-option border border-gray-300 rounded-lg p-4 cursor-pointer" data-question="5" data-option="C" data-correct="false">
+                                ج) لون التابلت اللي تستخدمه.
+                            </div>
+                            <div class="quiz-option border border-gray-300 rounded-lg p-4 cursor-pointer" data-question="5" data-option="D" data-correct="false">
+                                د) ترتيب أرقام عشوائية.
+                            </div>
+                        </div>
+                        <div class="quiz-navigation">
+                            <button class="quiz-button prev" id="prev-5" onclick="prevQuestion()">
+                                السابق
+                            </button>
+                            <button class="quiz-button next" id="next-5" onclick="nextQuestion()" style="display: none;">
+                                التالي
+                            </button>
+                        </div>
+                        <div class="quiz-feedback" id="feedback-5"></div>
+                    </div>
+                    
+                    <!-- Question 6 -->
+                    <div class="question hidden" id="question-6">
+                        <h3 class="text-xl font-bold mb-6">عند عمل reverse-engineer لواجهة، هتركّز على:</h3>
+                        <div class="space-y-3">
+                            <div class="quiz-option border border-gray-300 rounded-lg p-4 cursor-pointer" data-question="6" data-option="A" data-correct="true">
+                                أ) التراكيب (grid) والمسافات والـ typography.
+                            </div>
+                            <div class="quiz-option border border-gray-300 rounded-lg p-4 cursor-pointer" data-question="6" data-option="B" data-correct="false">
+                                ب) حذف كل الصور.
+                            </div>
+                            <div class="quiz-option border border-gray-300 rounded-lg p-4 cursor-pointer" data-question="6" data-option="C" data-correct="false">
+                                ج) مجرد أخذ لقطات شاشة بدون تحليل.
+                            </div>
+                            <div class="quiz-option border border-gray-300 rounded-lg p-4 cursor-pointer" data-question="6" data-option="D" data-correct="false">
+                                د) تغيير كل حاجة فورًا.
+                            </div>
+                        </div>
+                        <div class="quiz-navigation">
+                            <button class="quiz-button prev" id="prev-6" onclick="prevQuestion()">
+                                السابق
+                            </button>
+                            <button class="quiz-button next" id="next-6" onclick="nextQuestion()" style="display: none;">
+                                التالي
+                            </button>
+                        </div>
+                        <div class="quiz-feedback" id="feedback-6"></div>
+                    </div>
+                    
+                    <!-- Question 7 -->
+                    <div class="question hidden" id="question-7">
+                        <h3 class="text-xl font-bold mb-6">أي من التالي يصف دور الـ AI في التغذية البصرية؟</h3>
+                        <div class="space-y-3">
+                            <div class="quiz-option border border-gray-300 rounded-lg p-4 cursor-pointer" data-question="7" data-option="A" data-correct="true">
+                                أ) أداة مساعدة لتوليد مراجع/ألوان/إيقونات بسرعة.
+                            </div>
+                            <div class="quiz-option border border-gray-300 rounded-lg p-4 cursor-pointer" data-question="7" data-option="B" data-correct="false">
+                                ب) بديل تمامًا للاختبار مع المستخدم.
+                            </div>
+                            <div class="quiz-option border border-gray-300 rounded-lg p-4 cursor-pointer" data-question="7" data-option="C" data-correct="false">
+                                ج) يمنع الإبداع نهائيًا.
+                            </div>
+                            <div class="quiz-option border border-gray-300 rounded-lg p-4 cursor-pointer" data-question="7" data-option="D" data-correct="false">
+                                د) فقط للتعديل على الصوت.
+                            </div>
+                        </div>
+                        <div class="quiz-navigation">
+                            <button class="quiz-button prev" id="prev-7" onclick="prevQuestion()">
+                                السابق
+                            </button>
+                            <button class="quiz-button next" id="next-7" onclick="nextQuestion()" style="display: none;">
+                                التالي
+                            </button>
+                        </div>
+                        <div class="quiz-feedback" id="feedback-7"></div>
+                    </div>
+                    
+                    <!-- Question 8 -->
+                    <div class="question hidden" id="question-8">
+                        <h3 class="text-xl font-bold mb-6">مقياس نجاح التغذية البصرية للفريق يقاس بـ:</h3>
+                        <div class="space-y-3">
+                            <div class="quiz-option border border-gray-300 rounded-lg p-4 cursor-pointer" data-question="8" data-option="A" data-correct="true">
+                                أ) زيادة اتساق الواجهات وسرعة التنفيذ.
+                            </div>
+                            <div class="quiz-option border border-gray-300 rounded-lg p-4 cursor-pointer" data-question="8" data-option="B" data-correct="false">
+                                ب) عدد الصور المحفوظة فقط.
+                            </div>
+                            <div class="quiz-option border border-gray-300 rounded-lg p-4 cursor-pointer" data-question="8" data-option="C" data-correct="false">
+                                ج) طول ملفات التصميم.
+                            </div>
+                            <div class="quiz-option border border-gray-300 rounded-lg p-4 cursor-pointer" data-question="8" data-option="D" data-correct="false">
+                                د) عدد الخطوط المستخدمة في المشروع.
+                            </div>
+                        </div>
+                        <div class="quiz-navigation">
+                            <button class="quiz-button prev" id="prev-8" onclick="prevQuestion()">
+                                السابق
+                            </button>
+                            <button class="quiz-button next" id="next-8" onclick="nextQuestion()" style="display: none;">
+                                التالي
+                            </button>
+                        </div>
+                        <div class="quiz-feedback" id="feedback-8"></div>
+                    </div>
+                    
+                    <!-- Question 9 -->
+                    <div class="question hidden" id="question-9">
+                        <h3 class="text-xl font-bold mb-6">أي تمرين مفيد لتحسين الحس الحركي للـ microinteractions؟</h3>
+                        <div class="space-y-3">
+                            <div class="quiz-option border border-gray-300 rounded-lg p-4 cursor-pointer" data-question="9" data-option="A" data-correct="true">
+                                أ) قياس timings من فيديوهات وإعادة تطبيقها.
+                            </div>
+                            <div class="quiz-option border border-gray-300 rounded-lg p-4 cursor-pointer" data-question="9" data-option="B" data-correct="false">
+                                ب) قراءة نصوص طويلة بدون مشاهدة أمثلة.
+                            </div>
+                            <div class="quiz-option border border-gray-300 rounded-lg p-4 cursor-pointer" data-question="9" data-option="C" data-correct="false">
+                                ج) حفظ أسماء المصممين فقط.
+                            </div>
+                            <div class="quiz-option border border-gray-300 rounded-lg p-4 cursor-pointer" data-question="9" data-option="D" data-correct="false">
+                                د) تغيير ألوان كل يوم عشوائيًا.
+                            </div>
+                        </div>
+                        <div class="quiz-navigation">
+                            <button class="quiz-button prev" id="prev-9" onclick="prevQuestion()">
+                                السابق
+                            </button>
+                            <button class="quiz-button next" id="next-9" onclick="nextQuestion()" style="display: none;">
+                                التالي
+                            </button>
+                        </div>
+                        <div class="quiz-feedback" id="feedback-9"></div>
+                    </div>
+                    
+                    <!-- Question 10 -->
+                    <div class="question hidden" id="question-10">
+                        <h3 class="text-xl font-bold mb-6">الأفضل لإدارة مراجع تغذية بصرية ضمن فريق:</h3>
+                        <div class="space-y-3">
+                            <div class="quiz-option border border-gray-300 rounded-lg p-4 cursor-pointer" data-question="10" data-option="A" data-correct="true">
+                                أ) استخدام مكتبة مرجعية موحّدة (Figma Library/Milanote).
+                            </div>
+                            <div class="quiz-option border border-gray-300 rounded-lg p-4 cursor-pointer" data-question="10" data-option="B" data-correct="false">
+                                ب) حفظ كل حاجة على جهاز واحدة خاصة.
+                            </div>
+                            <div class="quiz-option border border-gray-300 rounded-lg p-4 cursor-pointer" data-question="10" data-option="C" data-correct="false">
+                                ج) إرسال روابط بالإيميل كل مرة.
+                            </div>
+                            <div class="quiz-option border border-gray-300 rounded-lg p-4 cursor-pointer" data-question="10" data-option="D" data-correct="false">
+                                د) عدم تنظيم أي مرجع.
+                            </div>
+                        </div>
+                        <div class="quiz-navigation">
+                            <button class="quiz-button prev" id="prev-10" onclick="prevQuestion()">
+                                السابق
+                            </button>
+                            <button class="quiz-button submit" id="next-10" onclick="showResults()" style="display: none;">
+                                عرض النتائج
+                            </button>
+                        </div>
+                        <div class="quiz-feedback" id="feedback-10"></div>
+                    </div>
+                    
+                    <!-- Results -->
+                    <div class="question hidden" id="results">
+                        <h3 class="text-2xl font-bold mb-6 text-center">نتيجة الاختبار</h3>
+                        <div class="text-center mb-8">
+                            <div class="inline-block relative">
+                                <div class="w-48 h-48 rounded-full border-8 border-gray-200 flex items-center justify-center">
+                                    <span class="text-4xl font-bold" id="final-score">0/10</span>
+                                </div>
+                                <div class="absolute top-0 right-0 w-48 h-48 rounded-full border-8 border-transparent border-t-indigo-600 border-r-indigo-600 transform -rotate-45" id="score-circle"></div>
+                            </div>
+                        </div>
+                        <div class="text-center mb-8">
+                            <p class="text-xl mb-4" id="result-message">رسالة النتيجة</p>
+                            <div class="mb-6 bg-gray-100 p-4 rounded-lg" id="answer-feedback">
+                                <!-- سيتم ملؤه بالنتائج -->
+                            </div>
+                            <button class="bg-indigo-600 text-white px-6 py-3 rounded-lg font-medium" onclick="restartQuiz()">إعادة الاختبار</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Next Page Button -->
+    <div class="text-center py-12 bg-white">
+        <a href="../lec_2/w1.html" class="inline-flex items-center bg-gradient-to-r from-indigo-600 to-purple-600 text-white px-8 py-4 rounded-full font-bold text-lg shadow-lg hover:shadow-xl transition">
+            التالي
+            <i class="fas fa-arrow-left mr-2"></i>
+        </a>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-12">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-6 md:mb-0">
+                    <div class="flex items-center">
+                        <div class="w-10 h-10 rounded-full bg-white flex items-center justify-center text-indigo-600 font-bold text-xl mr-3">
+                            S
+                        </div>
+                        <h3 class="text-xl font-bold">Ahmed Tawheed</h3>
+                    </div>
+                    <p class="mt-2 text-gray-400">دورة التغذية البصرية</p>
+                </div>
+                
+                <div class="flex space-x-6 space-x-reverse">
+                    <a href="#" class="text-gray-400 hover:text-white transition">
+                        <i class="fab fa-facebook-f text-xl"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-white transition">
+                        <i class="fab fa-twitter text-xl"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-white transition">
+                        <i class="fab fa-instagram text-xl"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-white transition">
+                        <i class="fab fa-linkedin-in text-xl"></i>
+                    </a>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
+                <p>© 2025 جميع الحقوق محفوظة. تصميم وتطوير: Ahmed Tawheed</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Floating Button -->
+    <div class="floating-button" id="scroll-to-top">
+        <i class="fas fa-arrow-up"></i>
+    </div>
+
+    <!-- Notification -->
+    <div id="notification" class="notification">
+        <i class="notification-icon"></i>
+        <span id="notification-message"></span>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        // Initialize AOS
+        AOS.init({
+            duration: 800,
+            once: true,
+            offset: 100
+        });
+
+        // Mobile Menu Toggle
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        
+        mobileMenuButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Smooth Scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    window.scrollTo({
+                        top: target.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                    
+                    // Close mobile menu if open
+                    mobileMenu.classList.add('hidden');
+                }
+            });
+        });
+
+        // Scroll to Top Button
+        const scrollToTopButton = document.getElementById('scroll-to-top');
+        
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 300) {
+                scrollToTopButton.style.display = 'flex';
+            } else {
+                scrollToTopButton.style.display = 'none';
+            }
+        });
+        
+        scrollToTopButton.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        // Notification System
+        function showNotification(type, message) {
+            const notification = document.getElementById('notification');
+            const notificationMessage = document.getElementById('notification-message');
+            const notificationIcon = notification.querySelector('.notification-icon');
+            
+            // Set message
+            notificationMessage.textContent = message;
+            
+            // Remove existing classes
+            notification.classList.remove('success', 'error', 'info');
+            
+            // Add appropriate class based on type
+            notification.classList.add(type);
+            
+            // Set icon based on type
+            switch(type) {
+                case 'success':
+                    notificationIcon.className = 'notification-icon fas fa-check-circle';
+                    break;
+                case 'error':
+                    notificationIcon.className = 'notification-icon fas fa-times-circle';
+                    break;
+                case 'info':
+                    notificationIcon.className = 'notification-icon fas fa-info-circle';
+                    break;
+            }
+            
+            // Show notification
+            notification.classList.add('show');
+            
+            // Hide notification after 3 seconds
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+        }
+
+        // Interactive Examples
+        function selectColor(element) {
+            const colorCode = element.querySelector('.color-code').textContent;
+            showNotification('info', `تم اختيار اللون: ${colorCode}`);
+        }
+
+        function toggleImageSelection(element) {
+            element.classList.toggle('selected');
+            if (element.classList.contains('selected')) {
+                showNotification('success', 'تم اختيار الصورة');
+            } else {
+                showNotification('info', 'تم إلغاء اختيار الصورة');
+            }
+        }
+
+        function selectMoodboardTopic(element, topic) {
+            // Remove active class from all elements
+            document.querySelectorAll('.interactive-card').forEach(card => {
+                card.classList.remove('active');
+            });
+            
+            // Add active class to selected element
+            element.classList.add('active');
+            
+            showNotification('success', `تم اختيار موضوع: ${topic}`);
+        }
+
+        function startColorChallenge(element) {
+            // Show timer
+            document.getElementById('color-challenge-timer').style.display = 'block';
+            
+            // Start timer
+            let timeLeft = 45 * 60; // 45 minutes in seconds
+            const timerElement = document.getElementById('timer');
+            
+            const timerInterval = setInterval(() => {
+                const minutes = Math.floor(timeLeft / 60);
+                const seconds = timeLeft % 60;
+                timerElement.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    showNotification('info', 'انتهى الوقت!');
+                    document.getElementById('color-challenge-timer').style.display = 'none';
+                }
+                
+                timeLeft--;
+            }, 1000);
+            
+            showNotification('success', 'بدأ التحدي! لديك 45 دقيقة');
+        }
+
+        function addToDictionary(term, element) {
+            const checkbox = element.nextElementSibling;
+            checkbox.checked = !checkbox.checked;
+            
+            if (checkbox.checked) {
+                showNotification('success', `تمت إضافة "${term}" إلى القاموس البصري`);
+            } else {
+                showNotification('info', `تمت إزالة "${term}" من القاموس البصري`);
+            }
+        }
+
+        // Quiz Functionality
+        let currentQuestion = 1;
+        let score = 0;
+        const totalQuestions = 10;
+        const userAnswers = [];
+
+        // Add event listeners to quiz options
+        document.addEventListener('DOMContentLoaded', function() {
+            const quizOptions = document.querySelectorAll('.quiz-option');
+            
+            quizOptions.forEach(option => {
+                option.addEventListener('click', function() {
+                    const questionNum = parseInt(this.getAttribute('data-question'));
+                    const selectedOption = this.getAttribute('data-option');
+                    const isCorrect = this.getAttribute('data-correct') === 'true';
+                    
+                    // Save user answer
+                    userAnswers[questionNum - 1] = {
+                        question: questionNum,
+                        selected: selectedOption,
+                        correct: isCorrect
+                    };
+                    
+                    // Mark selected option
+                    this.classList.add('selected');
+                    
+                    // Disable all options for this question
+                    const allOptions = document.querySelectorAll(`#question-${questionNum} .quiz-option`);
+                    allOptions.forEach(opt => {
+                        opt.style.pointerEvents = 'none';
+                    });
+                    
+                    // Show feedback
+                    const feedbackElement = document.getElementById(`feedback-${questionNum}`);
+                    feedbackElement.classList.add('show');
+                    
+                    if (isCorrect) {
+                        this.classList.add('correct');
+                        feedbackElement.classList.add('correct');
+                        feedbackElement.innerHTML = '<i class="fas fa-check-circle ml-2"></i>إجابة صحيحة!';
+                        score++;
+                        document.getElementById('score').textContent = score;
+                    } else {
+                        this.classList.add('incorrect');
+                        feedbackElement.classList.add('incorrect');
+                        feedbackElement.innerHTML = '<i class="fas fa-times-circle ml-2"></i>إجابة خاطئة!';
+                        
+                        // Find and mark correct option
+                        allOptions.forEach(opt => {
+                            if (opt.getAttribute('data-correct') === 'true') {
+                                opt.classList.add('correct');
+                            }
+                        });
+                    }
+                    
+                    // Show next button
+                    document.getElementById(`next-${questionNum}`).style.display = 'inline-block';
+                });
+            });
+        });
+
+        function nextQuestion() {
+            document.getElementById(`question-${currentQuestion}`).classList.add('hidden');
+            currentQuestion++;
+            document.getElementById(`question-${currentQuestion}`).classList.remove('hidden');
+            document.getElementById('current-question').textContent = currentQuestion;
+            
+            // Update progress bar
+            const progress = (currentQuestion / totalQuestions) * 100;
+            document.getElementById('progress').style.width = `${progress}%`;
+            
+            // Update previous button state
+            if (currentQuestion > 1) {
+                document.getElementById(`prev-${currentQuestion}`).disabled = false;
+            }
+        }
+
+        function prevQuestion() {
+            document.getElementById(`question-${currentQuestion}`).classList.add('hidden');
+            currentQuestion--;
+            document.getElementById(`question-${currentQuestion}`).classList.remove('hidden');
+            document.getElementById('current-question').textContent = currentQuestion;
+            
+            // Update progress bar
+            const progress = (currentQuestion / totalQuestions) * 100;
+            document.getElementById('progress').style.width = `${progress}%`;
+            
+            // Update previous button state
+            if (currentQuestion === 1) {
+                document.getElementById(`prev-${currentQuestion}`).disabled = true;
+            }
+        }
+
+        function showResults() {
+            document.getElementById(`question-${currentQuestion}`).classList.add('hidden');
+            document.getElementById('results').classList.remove('hidden');
+            
+            // Update final score
+            document.getElementById('final-score').textContent = `${score}/${totalQuestions}`;
+            
+            // Update score circle
+            const percentage = (score / totalQuestions) * 100;
+            const circle = document.getElementById('score-circle');
+            const rotation = (percentage / 100) * 360;
+            circle.style.transform = `rotate(${rotation - 45}deg)`;
+            
+            // Update result message
+            let message = '';
+            if (score >= 9) {
+                message = 'ممتاز! لقد أتقنت التغذية البصرية.';
+            } else if (score >= 7) {
+                message = 'جيد جدًا! لديك فهم قوي للتغذية البصرية.';
+            } else if (score >= 5) {
+                message = 'جيد! يمكنك تحسين معرفتك بالتغذية البصرية.';
+            } else {
+                message = 'تحتاج إلى المزيد من التعلم حول التغذية البصرية.';
+            }
+            document.getElementById('result-message').textContent = message;
+            
+            // Show answer feedback
+            const feedbackContainer = document.getElementById('answer-feedback');
+            feedbackContainer.innerHTML = '<h4 class="font-bold mb-2">مراجعة الإجابات:</h4>';
+            
+            userAnswers.forEach((answer, index) => {
+                const questionNum = index + 1;
+                const isCorrect = answer.correct;
+                const statusClass = isCorrect ? 'text-green-600' : 'text-red-600';
+                const statusIcon = isCorrect ? 'fa-check-circle' : 'fa-times-circle';
+                
+                feedbackContainer.innerHTML += `
+                    <div class="mb-2">
+                        <span class="font-medium">السؤال ${questionNum}:</span>
+                        <i class="fas ${statusIcon} ${statusClass} mr-1"></i>
+                        <span class="${statusClass}">${isCorrect ? 'صحيح' : 'خطأ'}</span>
+                    </div>
+                `;
+            });
+        }
+
+        function restartQuiz() {
+            currentQuestion = 1;
+            score = 0;
+            userAnswers.length = 0;
+            document.getElementById('score').textContent = score;
+            document.getElementById('current-question').textContent = currentQuestion;
+            document.getElementById('progress').style.width = '10%';
+            
+            // Hide results and show first question
+            document.getElementById('results').classList.add('hidden');
+            document.getElementById('question-1').classList.remove('hidden');
+            
+            // Reset all questions
+            for (let i = 1; i <= totalQuestions; i++) {
+                const options = document.querySelectorAll(`#question-${i} .quiz-option`);
+                const nextButton = document.getElementById(`next-${i}`);
+                const prevButton = document.getElementById(`prev-${i}`);
+                const feedbackElement = document.getElementById(`feedback-${i}`);
+                
+                options.forEach(option => {
+                    option.classList.remove('correct', 'incorrect', 'selected');
+                    option.style.pointerEvents = 'auto';
+                });
+                
+                nextButton.style.display = 'none';
+                feedbackElement.classList.remove('show', 'correct', 'incorrect');
+                
+                if (i === 1) {
+                    prevButton.disabled = true;
+                } else {
+                    prevButton.disabled = false;
+                }
+            }
+        }
+    </script>
+</body>
+</html>
